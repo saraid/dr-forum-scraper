@@ -19,15 +19,11 @@ posts = post_numbers.collect { |x|
   post = Hash.new
   post[:number] = x
   post[:author] = /M#{x}.+?>([A-Z0-9-]+)<\/b>/.match(resp3.body)[1]
-  # puts "author#{x}"
   metadata = /mnick_c#{category}t#{topic}m#{x}.+?normS1">(.+?)<.+? on (.+?)<.+?#{x}/m.match(resp3.body)
   post[:title] = metadata[1]
-  # puts "title#{x}"
   date = ParseDate::parsedate(metadata[2])
   post[:date] = Time.local(date[5], date[4], date[3], date[2], date[1], date[0], nil, nil, isdst, isdst ? "CDT" : "CST") # Ignore time zone.
-  # puts "date#{x}"
   post[:content] = /tmsgc#{category}t#{topic}m#{x}\">(.+?)<!-- message formatter by simu-andy/m.match(resp3.body)[1].strip
-  # puts "content#{x}"
   puts "x is done"
   post
 }
